@@ -227,7 +227,6 @@ export const Jobs = () => {
                         color="indigo"
                         className='outline-none w-44'
                         onChange={setSalary}
-                        value={salary}
                         min={0}
                         max={2000000}
                       />
