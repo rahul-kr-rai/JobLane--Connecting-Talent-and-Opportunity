@@ -8,8 +8,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 export const Login = () => {
 
-
-  const { loading, isLogin } = useSelector(state => state.user)
+  const { loading, isLogin } = useSelector(state => state.user) //
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
@@ -17,82 +16,86 @@ export const Login = () => {
   const [password, setPassword] = useState("");
   const [eyeTog, setEyeTog] = useState(false)
 
-
   const loginHandler = (e) => {
     e.preventDefault()
-    const data = {
-      email, password
-    }
-
-    dispatch(loginUser(data))
-
+    dispatch(loginUser({ email, password })) //
     setEmail("")
     setPassword("")
   }
-
-
 
   useEffect(() => {
     if (isLogin) {
       navigate("/")
     }
-  }, [isLogin])
+  }, [isLogin, navigate])
 
   return (
-
-
     <>
-
       <MetaData title="Login" />
-      <div className='bg-gray-950 min-h-screen pt-14 md:px-20 px-3   text-white'>
+      <div className='bg-gray-950 min-h-screen flex justify-center items-center pt-14 md:px-20 px-3 text-white'>
+        
+        {/* Glass Card */}
+        <div className='flex flex-col md:w-1/3 w-full bg-gray-900/50 p-8 rounded-2xl border border-gray-800 shadow-2xl backdrop-blur-sm'>
+          
+          <div className='text-center mb-8'>
+            <p className='text-4xl font-bold titleT'>Login</p>
+            <p className='text-gray-400 text-sm mt-2'>Welcome back! Please enter your details.</p>
+          </div>
 
-
-        <div className=' flex justify-center w-full items-start pt-14'>
-          <form onSubmit={loginHandler} className='flex  flex-col md:w-1/3 shadow-gray-700  w-full md:mx-0 mx-8' action="">
-
-            <div className='md:px-10 px-2 py-6 w-full flex flex-col gap-4'>
-              <div className='text-center'>
-                <p className='text-4xl  font-medium'>Login</p>
+          <form onSubmit={loginHandler} className='flex flex-col gap-5'>
+            
+            {/* Email Input */}
+            <div className='relative group'>
+              <div className='absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-500 group-focus-within:text-[#3803FF]'>
+                <AiOutlineMail size={22} />
               </div>
-
-              <div className='bg-white flex justify-center items-center'>
-                <div className='text-gray-600 px-2'>
-                  <AiOutlineMail size={20} />
-                </div>
-                <input onChange={(e) => setEmail(e.target.value)} value={email} required placeholder='Email' type="text" className='outline-none bold-placeholder  w-full text-black px-1 pr-3 py-2' />
-              </div>
-
-              <div className='bg-white flex justify-center items-center'>
-                <div className='text-gray-600 px-2'>
-                  <AiOutlineUnlock size={20} />
-                </div>
-                <input onChange={(e) => setPassword(e.target.value)} value={password} required placeholder='Password' type={eyeTog ? "text" : "password"} className='outline-none bold-placeholder w-full text-black px-1 pr-3 py-2' />
-                <div className='text-gray-600 px-2 cursor-pointer' >
-                  {eyeTog ?
-                    <AiOutlineEye size={20} onClick={() => setEyeTog(!eyeTog)} /> : <AiOutlineEyeInvisible size={20} onClick={() => setEyeTog(!eyeTog)} />
-                  }
-                </div>
-              </div>
-              <div>
-              <button disabled={loading || !email || !password} className='blueCol px-8 w-full py-2 flex justify-center items-center font-semibold' >{loading ? <TbLoader2 className='animate-spin' size={24} /> : "Login"}</button>
-              </div>
-              <div className='text-center text-sm pt-2'>
-                <p>Don't have an account, <Link to="/register" className='text-yellow-400 underline'>Register</Link> here. </p>
-              </div>
-
+              <input 
+                onChange={(e) => setEmail(e.target.value)} 
+                value={email} 
+                required 
+                placeholder='Email' 
+                type="text" 
+                className='w-full bg-white text-black rounded-lg pl-10 pr-3 py-3 outline-none border-2 border-transparent focus:border-[#3803FF] transition-all font-medium placeholder:font-normal' 
+              />
             </div>
 
+            {/* Password Input */}
+            <div className='relative group'>
+              <div className='absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-500 group-focus-within:text-[#3803FF]'>
+                <AiOutlineUnlock size={22} />
+              </div>
+              <input 
+                onChange={(e) => setPassword(e.target.value)} 
+                value={password} 
+                required 
+                placeholder='Password' 
+                type={eyeTog ? "text" : "password"} 
+                className='w-full bg-white text-black rounded-lg pl-10 pr-10 py-3 outline-none border-2 border-transparent focus:border-[#3803FF] transition-all font-medium placeholder:font-normal' 
+              />
+              <div className='absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer text-gray-500 hover:text-black' >
+                {eyeTog ? 
+                  <AiOutlineEye size={22} onClick={() => setEyeTog(!eyeTog)} /> : 
+                  <AiOutlineEyeInvisible size={22} onClick={() => setEyeTog(!eyeTog)} />
+                }
+              </div>
+            </div>
 
+            {/* Submit Button */}
+            <button 
+              disabled={loading || !email || !password} 
+              className='blueCol mt-2 w-full py-3 rounded-lg flex justify-center items-center font-bold text-lg hover:shadow-lg hover:shadow-blue-900/50 transition-all disabled:opacity-50 disabled:cursor-not-allowed'
+            >
+              {loading ? <TbLoader2 className='animate-spin' size={24} /> : "Login"}
+            </button>
 
           </form>
+
+          <div className='text-center text-sm pt-6 text-gray-400'>
+            <p>Don't have an account? <Link to="/register" className='text-yellow-400 hover:text-yellow-300 underline font-semibold transition-colors'>Register here</Link></p>
+          </div>
+
         </div>
-
-
       </div>
-
-
     </>
-
-
   )
 }
